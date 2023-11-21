@@ -3,9 +3,7 @@ package com.example.demodataapi.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -14,7 +12,7 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 @Entity
-@Table
+@Table(schema = "spring")
 public class Shopper {
 
     @Id
@@ -22,12 +20,8 @@ public class Shopper {
     private String name;
 
 
-    @OneToMany(
-            mappedBy = "tag",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<ProductShopperScore> productShopperScores = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopper")
+    private Set<ProductShopperScore> productShopperScores = new HashSet<>();
 
     public Shopper(String name) {
         this.name = name;
@@ -42,12 +36,10 @@ public class Shopper {
     }
 
     public void removeProductScore(Product product) {
-        for (Iterator<ProductShopperScore> iterator = productShopperScores.iterator();
-             iterator.hasNext(); ) {
+        for (Iterator<ProductShopperScore> iterator = productShopperScores.iterator(); iterator.hasNext(); ) {
             ProductShopperScore productShopperScore = iterator.next();
 
-            if (productShopperScore.getShopper().equals(this) &&
-                    productShopperScore.getProduct().equals(product)) {
+            if (productShopperScore.getShopper().equals(this) && productShopperScore.getProduct().equals(product)) {
                 iterator.remove();
                 productShopperScore.getProduct().getProductShopperScore().remove(productShopperScore);
                 productShopperScore.setProduct(null);

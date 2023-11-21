@@ -11,19 +11,21 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-@Table
+@Table(schema = "spring")
 @Entity
 public class ProductShopperScore implements Serializable {
 
     @EmbeddedId
     private ProductShopperScoreId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @MapsId("productId")
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @MapsId("shopperId")
+    @JoinColumn(name = "shopper_id")
     private Shopper shopper;
 
     private double score;
@@ -42,7 +44,9 @@ public class ProductShopperScore implements Serializable {
     @ToString
     @Embeddable
     public static class ProductShopperScoreId implements Serializable {
+        @Column(name = "product_id")
         private String productId;
+        @Column(name = "shopper_id")
         private String shopperId;
     }
 

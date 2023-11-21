@@ -1,10 +1,11 @@
 package com.example.demodataapi.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 @Entity
-@Table
+@Table(schema = "spring")
 public class Product {
 
     @Id
@@ -22,12 +23,8 @@ public class Product {
     private String brand;
     private String category;
 
-    @OneToMany(
-            mappedBy = "tag",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<ProductShopperScore> ProductShopperScore = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private Set<ProductShopperScore> ProductShopperScore = new HashSet<>();
 
     public Product(String name, String brand, String category) {
         this.name = name;
