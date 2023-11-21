@@ -3,10 +3,11 @@ package com.example.demodataapi.service.impl;
 import com.example.demodataapi.entity.Shopper;
 import com.example.demodataapi.repository.ShopperRepo;
 import com.example.demodataapi.service.ShopperService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ShopperServiceImpl implements ShopperService {
 
     private final ShopperRepo shopperRepo;

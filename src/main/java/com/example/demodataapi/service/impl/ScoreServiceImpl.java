@@ -7,11 +7,12 @@ import com.example.demodataapi.repository.ProductShopperScoreRepo;
 import com.example.demodataapi.service.ProductService;
 import com.example.demodataapi.service.ScoreService;
 import com.example.demodataapi.service.ShopperService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ScoreServiceImpl implements ScoreService {
 
     private final ProductShopperScoreRepo scoreRepo;
@@ -67,8 +68,20 @@ public class ScoreServiceImpl implements ScoreService {
      * @return
      */
     @Override
-    public List<ProductShopperScore> FindAllByShopper(String id) {
-        return this.scoreRepo.FindAllByIdShopper(id);
+    public List<ProductShopperScore> FindAllByShopper(String id, int limit, Optional<String> brand, Optional<String> category) {
+        if (brand.isPresent() && category.isPresent()) {
+            return this.scoreRepo.FindAllByIdShopper(id, limit, brand.get(), category.get());
+        } else {
+            if (brand.isPresent()) {
+                return this.scoreRepo.FindAllByIdShopperBrand(id, limit, brand.get());
+            } else if (category.isPresent()) {
+//                return this.scoreRepo.FindAllByIdShopperCategory(id, limit, category.get());
+                return null;
+            }
+
+        }
+        return this.scoreRepo.FindAllByIdShopper(id, limit);
+
     }
 
     /**
@@ -76,8 +89,8 @@ public class ScoreServiceImpl implements ScoreService {
      * @return
      */
     @Override
-    public List<ProductShopperScore> FindAllByShopper(Shopper shopper) {
-        return this.scoreRepo.FindAllByIdShopper(shopper.getId());
+    public List<ProductShopperScore> FindAllByShopper(Shopper shopper, int limit, Optional<String> brand, Optional<String> category) {
+        return this.scoreRepo.FindAllByIdShopper(shopper.getId(), limit);
 //        return null;
     }
 
@@ -87,8 +100,8 @@ public class ScoreServiceImpl implements ScoreService {
      * @return
      */
     @Override
-    public List<ProductShopperScore> FindAllByProduct(String id) {
-        return this.scoreRepo.FindAllByIdProduct(id);
+    public List<ProductShopperScore> FindAllByProduct(String id, int limit) {
+        return this.scoreRepo.FindAllByIdProduct(id, limit);
     }
 
     /**
@@ -96,8 +109,8 @@ public class ScoreServiceImpl implements ScoreService {
      * @return
      */
     @Override
-    public List<ProductShopperScore> FindAllByProduct(Product product) {
-        return this.scoreRepo.FindAllByIdProduct(product.getId());
+    public List<ProductShopperScore> FindAllByProduct(Product product, int limit) {
+        return this.scoreRepo.FindAllByIdProduct(product.getId(), limit);
 //        return null;
     }
 

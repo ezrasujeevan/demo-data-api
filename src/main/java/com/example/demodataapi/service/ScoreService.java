@@ -3,6 +3,7 @@ package com.example.demodataapi.service;
 import com.example.demodataapi.entity.Product;
 import com.example.demodataapi.entity.ProductShopperScore;
 import com.example.demodataapi.entity.Shopper;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,13 +20,13 @@ public interface ScoreService {
 
     List<ProductShopperScore> FindAll();
 
-    List<ProductShopperScore> FindAllByShopper(String id);
+    List<ProductShopperScore> FindAllByShopper(String id,int limit,Optional<String> brand, Optional<String> category);
 
-    List<ProductShopperScore> FindAllByShopper(Shopper shopper);
+    List<ProductShopperScore> FindAllByShopper(Shopper shopper,int limit,Optional<String> brand, Optional<String> category);
 
-    List<ProductShopperScore> FindAllByProduct(String id);
+    List<ProductShopperScore> FindAllByProduct(String id,int limit);
 
-    List<ProductShopperScore> FindAllByProduct(Product product);
+    List<ProductShopperScore> FindAllByProduct(Product product,int limit);
 
     ProductShopperScore create(ProductShopperScore score);
 
